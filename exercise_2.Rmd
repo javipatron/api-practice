@@ -1,0 +1,61 @@
+---
+title: "api-exercise2"
+output: html_document
+date: "2022-08-24"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+library(metajam)
+library(tidyverse)
+library(here)
+```
+
+download Data
+
+```{r}
+data <- "https://knb.ecoinformatics.org/knb/d1/mn/v2/object/doi%3A10.5063%2FF1N58JPP"
+path <- "."
+
+https://knb.ecoinformatics.org/knb/d1/mn/v2/object/urn%3Auuid%3A7fc6f6db-c5ea-426a-a743-1f2edafb43b8
+
+# download data and metadata
+download_d1_data("https://knb.ecoinformatics.org/knb/d1/mn/v2/object/urn%3Auuid%3A7fc6f6db-c5ea-426a-a743-1f2edafb43b8", ".")
+
+
+
+```
+
+
+```{r}
+
+language <- read.csv(here::here("household_language", "household_language.csv"))
+
+```
+
+
+Write a piece of code that will compute the percentage of Alaskan household speaking only English for the year 2009 to 2015
+
+
+```{r}
+lang_eng <- language %>% 
+  group_by(Year) %>% 
+  summarise(tot = sum(total), just_english = sum(speak_only_english), percentage = (just_english/tot)*100)
+
+```
+
+plot the data
+
+
+```{r}
+ggplot(lang_eng, aes(x= Year, y = just_english)) +
+  geom_line(aes(color = percentage)) 
+```
+
+
+
+

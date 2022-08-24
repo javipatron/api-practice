@@ -1,0 +1,61 @@
+---
+title: "api-practice"
+output: html_document
+date: "2022-08-24"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+library(httr)
+library(purrr)
+library(dataRetrieval)
+
+```
+
+
+# Download the information from the https webpage in a specific time-frame
+#Ventura River from 2019-10-01 to 2020-10-05
+
+
+```{r}
+ventura_river <- GET("https://waterdata.usgs.gov/nwis/uv?site_no=11118500")
+
+ventura_river$status_code
+ventura_list <- content(ventura_river)
+
+```
+
+
+Explore the data
+
+```{r}
+siteNumber <- "11118500"
+parameterCd <- c("00060")  # discharge
+startDate <- "2019-10-01"
+endDate <- "2020-10-01"
+
+flow <- readNWISdv(siteNumber, parameterCd,startDate, endDate)
+
+
+```
+
+PLOT
+```{r}
+
+
+ggplot(flow, aes(x = Date, y = X_00060_00003)) +
+  geom_line()
+
+```
+
+
+
+
+
+
+
+
